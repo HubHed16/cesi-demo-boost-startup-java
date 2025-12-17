@@ -121,7 +121,7 @@ git add .gitignore
 
 3. **Créez `.gitleaksignore` pour le faux positif de documentation** :
 ```bash
-cat > .gitleaksignore << 'EOF'
+cat > gitleaksignore << 'EOF'
 # Gitleaks ignore file
 # Documentation examples - not real secrets
 
@@ -129,7 +129,7 @@ cat > .gitleaksignore << 'EOF'
 tp/SECRETS.md:74
 tp/SECRETS.md:75
 EOF
-git add .gitleaksignore
+git add gitleaksignore
 ```
 
 ### Étape 4.6 : Retester après nettoyage

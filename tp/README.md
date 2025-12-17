@@ -24,7 +24,7 @@ Avant de commencer les exercices, vous devez configurer les secrets GitHub néce
 
 ## ⏱️ Durée Estimée
 
-- **Durée totale :** 6h55 - 8h15
+- **Durée totale :** 7h40 - 9h00
 - **Niveau :** Intermédiaire à Avancé
 
 ---
@@ -74,8 +74,9 @@ main-pipeline.yml (orchestrateur)
 | 10 | 🚀 Ajouter le Déploiement en Production | 45 min | [Exercice-10.md](Exercice-10.md) |
 | 11 | 🔔 Ajouter les Notifications | 15 min | [Exercice-11.md](Exercice-11.md) |
 | 12 | ☸️ Déploiement GitOps avec ArgoCD | 45 min | [Exercice-12-ArgoCD.md](Exercice-12-ArgoCD.md) |
+| 13 | 🛡️ Sécurité et Gouvernance avec Kyverno | 45 min | [Exercice-13-Kyverno.md](Exercice-13-Kyverno.md) |
 
-**Durée totale estimée :** 6h55 - 8h15
+**Durée totale estimée :** 7h40 - 9h00
 
 ---
 
@@ -176,6 +177,14 @@ main-pipeline.yml (Orchestrateur)
 - ✅ Multi-namespace isolation
 - ✅ GitOps workflow (Git → ArgoCD → K8s)
 
+### Sécurité & Gouvernance Kubernetes
+- ✅ Kyverno (moteur de politiques natif)
+- ✅ Politiques de validation (deny privileged, require limits)
+- ✅ Politiques de mutation (auto-add labels, securityContext)
+- ✅ Politiques de génération (ResourceQuota, NetworkPolicy)
+- ✅ SecurityContext et durcissement de conteneurs
+- ✅ Linux Capabilities et principe du moindre privilège
+
 ---
 
 ## 📚 Ressources Complémentaires
@@ -188,6 +197,8 @@ main-pipeline.yml (Orchestrateur)
 - [ArgoCD Documentation](https://argo-cd.readthedocs.io/)
 - [GitOps Principles](https://www.gitops.tech/)
 - [Kubernetes Documentation](https://kubernetes.io/docs/home/)
+- [Kyverno Documentation](https://kyverno.io/docs/)
+- [Kyverno Policies Library](https://kyverno.io/policies/)
 
 ---
 
@@ -201,6 +212,6 @@ main-pipeline.yml (Orchestrateur)
 
 **Bon courage ! 🚀**
 
-**Version :** 3.1 (Approche Progressive + GitOps)
-**Dernière mise à jour :** 2025-12-07
+**Version :** 3.2 (Approche Progressive + GitOps + Kyverno)
+**Dernière mise à jour :** 2025-12-08
 **Auteur :** DevSecOps Team
