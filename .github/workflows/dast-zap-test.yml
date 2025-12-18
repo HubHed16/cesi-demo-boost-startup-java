@@ -1,0 +1,91 @@
+on:
+  workflow_call:
+    secrets:
+      DOCKERHUB_USERNAME:
+        required: true
+      DOCKERHUB_TOKEN:
+        required: true
+      DEPLOY_APPLI_NAME:
+        required: true
+      MONGODB_COLLECTION_NAME:
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  dast-zap-test:
+    name: 🧪 DAST ZAP Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Pull Docker image from Docker Hub
+        run: docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DEPLOY_APPLI_NAME }}:${{ github.sha }}
+
+      - name: Create Docker network
+        run: docker network create app-network
+
+      - name: Start MongoDB 7 container
+        run: |
+          docker run -d --name mongodb \
+            --network app-network \
+            -e MONGO_INITDB_DATABASE=${{ secrets.MONGODB_COLLECTION_NAME || 'demo' }} \
+            mongo:7
+
+      - name: Wait for MongoDB to be ready
+        run: |
+          timeout 30 sh -c 'until docker exec mongodb mongosh --eval "db.adminCommand({ping:1})" > /dev/null 2>&1; do sleep 2; done'
+
+      - name: Run application container
+        run: |
+          docker run -d --name test-app \
+            --network app-network \
+            -p 8080:8080 \
+            -e SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/${{ secrets.MONGODB_COLLECTION_NAME || 'demo' }} \
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DEPLOY_APPLI_NAME }}:${{ github.sha }}
+
+      - name: Wait for application to be ready
+        run: |
+          timeout 90 sh -c 'until curl -f http://localhost:8080/actuator/health; do sleep 2; done'
+
+      - name: Create ZAP reports directory
+        run: |
+          mkdir -p ${{ github.workspace }}/zap-reports
+          mkdir -p /tmp/zap-home
+          chmod -R 777 ${{ github.workspace }}/zap-reports
+          chmod -R 777 /tmp/zap-home
+
+      - name: Run OWASP ZAP DAST scan (Docker direct)
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}/zap-reports:/zap/wrk/:rw \
+            -v /tmp/zap-home:/home/zap:rw \
+            --network=host \
+            ghcr.io/zaproxy/zaproxy:stable \
+            zap-baseline.py \
+            -t http://localhost:8080 \
+            -r zap-report.html
+        continue-on-error: true
+
+      - name: Upload ZAP reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: zap-scan-reports
+          path: |
+            zap-reports/zap-report.html
+
+      - name: Stop test containers
+        if: always()
+        run: |
+          docker stop test-app mongodb || true
+          docker rm test-app mongodb || true
+          docker network rm app-network || true

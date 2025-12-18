@@ -23,3 +23,8 @@ jobs:
       needs: [ build-and-scan-docker ]
       uses: ./.github/workflows/publish-docker-hub.yml
       secrets: inherit
+
+    dast-zap-test:
+      needs: publish-docker-hub
+      uses: ./.github/workflows/dast-zap-test.yml
+      secrets: inherit
