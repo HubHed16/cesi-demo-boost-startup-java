@@ -19,5 +19,5 @@ jobs:
   # Les jobs seront ajoutés progressivement dans les exercices suivants
   # ═══════════════════════════════════════════════
   build-and-test:
-    needs: ./.github/workflows/build-unit-tests.yml
+    needs: build-and-test
     uses: ./.github/workflows/code-quality-sast.yml
