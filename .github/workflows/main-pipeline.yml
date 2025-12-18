@@ -25,3 +25,9 @@ jobs:
     secret-scanning:
       needs: build-and-test
       uses: ./.github/workflows/secret-scanning.yml
+
+
+    sca-dependency-scan:
+      needs: build-and-test  # Également en parallèle
+      uses: ./.github/workflows/sca-dependency-scan.yml
+      secrets: inherit  # ⚠️ IMPORTANT pour passer NVD_API_KEY
