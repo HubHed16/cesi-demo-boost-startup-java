@@ -18,3 +18,8 @@ jobs:
     build-and-scan-docker:
       uses: ./.github/workflows/build-docker-image.yml
       secrets: inherit
+
+    publish-docker-hub:
+      needs: [ build-and-scan-docker ]
+      uses: ./.github/workflows/publish-docker-hub.yml
+      secrets: inherit
