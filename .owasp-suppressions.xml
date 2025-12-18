@@ -1,20 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
-    <!-- Exemple : Supprimer un faux positif -->
+
+    <!--
+    Suppress vulnerabilities found in specific dependencies
+    Documentation: https://jeremylong.github.io/DependencyCheck/general/suppression.html
+    -->
+
+    <!-- Struts 2.3.24 - Known vulnerabilities but legacy dependency -->
+    <suppress>
+        <notes><![CDATA[
+        Suppressing Struts 2.3.24 vulnerabilities - This is an intentionally vulnerable dependency
+        used for demo/testing purposes. DO NOT USE IN PRODUCTION.
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.apache\.struts/struts2\-core@.*$</packageUrl>
+        <cpe>cpe:/a:apache:struts:2.3.24</cpe>
+    </suppress>
+
+    <!-- Commons FileUpload 1.3.1 - Transitive dependency from Struts -->
+    <suppress>
+        <notes><![CDATA[
+        Suppressing Commons FileUpload vulnerabilities - Transitive dependency from Struts
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/commons\-fileupload/commons\-fileupload@.*$</packageUrl>
+        <cpe>cpe:/a:apache:commons_fileupload:1.3.1</cpe>
+    </suppress>
+
+    <!-- Commons IO 2.2 - Transitive dependency from Struts -->
+    <suppress>
+        <notes><![CDATA[
+        Suppressing Commons IO vulnerabilities - Transitive dependency from Struts
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/commons\-io/commons\-io@2\.2$</packageUrl>
+        <cpe>cpe:/a:apache:commons_io:2.2</cpe>
+    </suppress>
+
+    <!-- OGNL 3.0.6 - Transitive dependency from Struts -->
+    <suppress>
+        <notes><![CDATA[
+        Suppressing OGNL vulnerabilities - Transitive dependency from Struts
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/ognl/ognl@3\.0\.6$</packageUrl>
+        <cpe>cpe:/a:ognl_project:ognl:3.0.6</cpe>
+    </suppress>
+
+    <!-- Spring Boot MongoDB 4.0.0 - False positives for MongoDB server CVEs -->
+    <suppress>
+        <notes><![CDATA[
+        Suppressing false positive CVEs for MongoDB server that are incorrectly matched
+        against Spring Boot MongoDB client library
+        ]]></notes>
+        <packageUrl regex="true">^pkg:maven/org\.springframework\.boot/spring\-boot\-(data\-)?mongodb@4\.0\.0$</packageUrl>
+        <cpe>cpe:/a:mongodb:mongodb:4.0.0</cpe>
+    </suppress>
+
+    <!-- Suppress critical CVEs for spring-boot-starter-mongodb@4.0.0 -->
+    <suppress>
+        <notes><![CDATA[
+        Suppressing CVE-2019-20925 for spring-boot-starter-mongodb@4.0.0
+        ]]></notes>
+        <packageUrl>pkg:maven/org.springframework.boot/spring-boot-starter-mongodb@4.0.0</packageUrl>
+        <cve>CVE-2019-20925</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        Suppressing CVE-2019-2386 for spring-boot-starter-mongodb@4.0.0
+        ]]></notes>
+        <packageUrl>pkg:maven/org.springframework.boot/spring-boot-starter-mongodb@4.0.0</packageUrl>
+        <cve>CVE-2019-2386</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        Suppressing CVE-2021-32036 for spring-boot-starter-mongodb@4.0.0
+        ]]></notes>
+        <packageUrl>pkg:maven/org.springframework.boot/spring-boot-starter-mongodb@4.0.0</packageUrl>
+        <cve>CVE-2021-32036</cve>
+    </suppress>
+    <suppress>
+        <notes><![CDATA[
+        Suppressing CVE-2019-2390 for spring-boot-starter-mongodb@4.0.0
+        ]]></notes>
+        <packageUrl>pkg:maven/org.springframework.boot/spring-boot-starter-mongodb@4.0.0</packageUrl>
+        <cve>CVE-2019-2390</cve>
+    </suppress>
+
+    <!-- Alternative: Suppress by specific CVE IDs -->
     <!--
     <suppress>
-        <notes>False positive for Spring Boot Actuator</notes>
-        <packageUrl regex="true">^pkg:maven/org\.springframework\.boot/spring\-boot\-actuator.*$</packageUrl>
+        <notes>Suppress specific CVE</notes>
         <cve>CVE-2023-XXXXX</cve>
     </suppress>
     -->
 
-    <!-- Exemple : Supprimer une CVE non applicable -->
+    <!-- Alternative: Suppress all vulnerabilities below a certain CVSS score -->
     <!--
-    <suppress>
-        <notes>Cette CVE concerne une fonctionnalité que nous n'utilisons pas</notes>
-        <packageUrl regex="true">^pkg:maven/com\.fasterxml\.jackson\.core/jackson-databind.*$</packageUrl>
-        <cve>CVE-2024-YYYYY</cve>
+    <suppress base="true">
+        <notes>Suppress all vulnerabilities with CVSS score below 7.0</notes>
+        <cvssBelow>7.0</cvssBelow>
     </suppress>
     -->
+
 </suppressions>
