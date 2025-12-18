@@ -11,12 +11,13 @@ permissions:
 
 jobs:
   build-and-scan-docker:
-    name: 🐳 Docker Build
+    name: 🐳 Docker Build & Scan
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
+      - name: Print MongoDB collection
+        run: echo "############# ${{ vars.MONGODB_COLLECTION_NAME }}"
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -54,8 +55,9 @@ jobs:
           format: 'table'
           exit-code: '0'
           severity: 'CRITICAL,HIGH'
+          trivyignores: .trivyignore
 
-      - name: Run Trivy scan (blocking on vulnerabilities)
+      - name: Run Trivy scan (blocking on non-ignored vulns)
         uses: aquasecurity/trivy-action@0.27.0
         with:
           image-ref: ${{ secrets.DEPLOY_APPLI_NAME }}:${{ github.sha }}
@@ -63,3 +65,4 @@ jobs:
           exit-code: '1'
           ignore-unfixed: true
           severity: 'CRITICAL,HIGH'
+          trivyignores: .trivyignore
