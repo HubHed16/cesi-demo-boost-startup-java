@@ -1,0 +1,23 @@
+# Liste des vulnérabilités à ignorer temporairement
+# ⚠️ EN PRODUCTION : Corriger ces vulnérabilités au lieu de les ignorer !
+
+# Struts2 - Vulnérabilités connues (liées aux dépendances transitives)
+CVE-2012-1592
+CVE-2016-3081
+CVE-2016-3082
+CVE-2016-3087
+CVE-2016-4003
+CVE-2017-5638
+CVE-2017-12611
+CVE-2018-11776
+CVE-2019-0230
+CVE-2019-0233
+CVE-2020-17530
+CVE-2023-50164
+
+# Spring Framework - Vulnérabilités anciennes
+CVE-2016-1000031
+CVE-2021-29425
+
+# Autres vulnérabilités à documenter
+# Ajoutez ici les CVE spécifiques que Trivy a détectées dans VOS logs
