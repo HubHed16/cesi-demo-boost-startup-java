@@ -21,3 +21,7 @@ jobs:
     code-quality-sast:
       needs: build-and-test
       uses: ./.github/workflows/code-quality-sast.yml
+
+    secret-scanning:
+      needs: build-and-test
+      uses: ./.github/workflows/secret-scanning.yml
