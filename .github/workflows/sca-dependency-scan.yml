@@ -45,11 +45,13 @@ jobs:
             echo "🚀 Running with NVD API Key for faster download"
             mvn org.owasp:dependency-check-maven:check \
               -DfailBuildOnCVSS=7 \
+              -DsuppressionFiles=.owasp-suppressions.xml \
               -DnvdApiKey=${NVD_API_KEY}
           else
             echo "🐌 Running without NVD API Key (slower download)"
             mvn org.owasp:dependency-check-maven:check \
-              -DfailBuildOnCVSS=7
+              -DfailBuildOnCVSS=7 \
+              -DsuppressionFiles=.owasp-suppressions.xml
           fi
 
       - name: 📤 Upload Dependency Check SARIF
