@@ -1,0 +1,40 @@
+name: Main CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  schedule:
+    - cron: '0 2 * * 1'  # Tous les lundis à 2h du matin
+  workflow_dispatch:  # Permet le déclenchement manuel
+
+permissions:
+  security-events: write
+  contents: read
+  actions: read
+
+jobs:
+  # ═══════════════════════════════════════════════
+  # Les jobs seront ajoutés progressivement dans les exercices suivants
+  # ═══════════════════════════════════════════════
+
+  placeholder:
+    name: Pipeline Principal - En Construction
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📋 Pipeline en construction
+        run: |
+          echo "🚧 Pipeline CI/CD en cours de construction..."
+          echo "Les workflows seront ajoutés progressivement dans les exercices suivants."
+          echo ""
+          echo "📚 Exercices à venir:"
+          echo "  ✅ Build & Tests Unitaires"
+          echo "  🔍 Analyse de Code (SAST)"
+          echo "  🔐 Détection de Secrets"
+          echo "  📦 Analyse des Dépendances (SCA)"
+          echo "  🏗️ Sécurité Infrastructure as Code"
+          echo "  🐳 Build Docker & Scan"
+          echo "  🎯 Tests de Sécurité Dynamiques (DAST)"
+          echo "  📤 Publication Docker Hub"
+          echo "  🚀 Déploiement Production"
