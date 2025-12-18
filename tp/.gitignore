@@ -1,0 +1,2 @@
+# Ne jamais commiter de fichiers de configuration avec secrets
+config/
